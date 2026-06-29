@@ -16,8 +16,8 @@ export const CARDHOLDER = {
 }
 
 export const ACCOUNTS = [
-  { id: 'rewards', name: 'Rewards Card', last4: '2395', miles: 46763, primary: true },
-  { id: 'everyday', name: 'Everyday Card', last4: '8841', miles: 12940, primary: false },
+  { id: 'rewards', name: 'Rewards Card', last4: '2395', miles: 46763, currency: 'Miles', primary: true },
+  { id: 'everyday', name: 'Everyday Card', last4: '8841', miles: 12940, currency: 'Points', primary: false },
 ]
 
 // Flow 1 — gift collections (by occasion / value tier)

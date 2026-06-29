@@ -63,7 +63,7 @@ export default function App() {
           <span className="acct-art">{a.name.split(' ')[0].toUpperCase()}</span>
           <span className="acct-body">
             <span className="acct-name">{a.name} ····{a.last4}</span>
-            <span className="acct-sub">{formatMiles(a.primary ? balance : a.miles)} Miles</span>
+            <span className="acct-sub">{formatMiles(a.primary ? balance : a.miles)} {a.currency}</span>
           </span>
           <span className={`radio ${account.id === a.id ? 'checked' : ''}`} />
         </button>
