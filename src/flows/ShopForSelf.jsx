@@ -4,13 +4,15 @@ import GiftCard from '../components/GiftCard.jsx'
 import MilesBadge from '../components/MilesBadge.jsx'
 import ConfirmationScreen from '../components/ConfirmationScreen.jsx'
 import { CATALOG, CATEGORIES, MOCK_ADDRESS, milesForDollars, formatMiles } from '../data/mock.js'
+import { useCurrency } from '../currency.js'
 
 /**
- * Flow 2 — Shop a gift for yourself (OUTBOUND: cardholder spends own miles).
+ * Flow 2 — Shop a gift for yourself (OUTBOUND: cardholder spends own miles/points).
  * Lightest path — no recipient or message step.
  * Steps: browse → item detail → shipping → review → confirm.
  */
 export default function ShopForSelf({ balance, onSpend, onExit }) {
+  const { unit, label, unitSingular } = useCurrency()
   const [step, setStep] = useState('browse')
   const [category, setCategory] = useState('All')
   const [item, setItem] = useState(null)
@@ -45,14 +47,14 @@ export default function ShopForSelf({ balance, onSpend, onExit }) {
         <div className="screen-pad" style={{ paddingTop: 0 }}>
           <div className="balance-strip">
             <span className="bs-label">Your balance</span>
-            <span className="bs-value">{formatMiles(balance)} miles</span>
+            <span className="bs-value">{formatMiles(balance)} {unit}</span>
           </div>
           <div className="gift-grid">
             {shown.map((i) => (
               <GiftCard key={i.id} item={i} onClick={() => { setItem(i); setStep('detail') }} />
             ))}
           </div>
-          <div className="demo-note">Rate shown is 1 mile = $0.01, for demo purposes.</div>
+          <div className="demo-note">Rate shown is 1 {unitSingular} = $0.01, for demo purposes.</div>
         </div>
       </div>
     )
@@ -72,7 +74,7 @@ export default function ShopForSelf({ balance, onSpend, onExit }) {
           <div className="balance-strip">
             <span className="bs-label">After redeeming</span>
             <span className="bs-value">
-              {insufficient ? 'Not enough miles' : `${formatMiles(newBalance)} miles left`}
+              {insufficient ? `Not enough ${unit}` : `${formatMiles(newBalance)} ${unit} left`}
             </span>
           </div>
         </div>
@@ -82,7 +84,7 @@ export default function ShopForSelf({ balance, onSpend, onExit }) {
             disabled={insufficient}
             onClick={() => setStep('shipping')}
           >
-            Redeem with miles
+            Redeem with {unit}
           </button>
         </div>
       </div>
@@ -149,12 +151,12 @@ export default function ShopForSelf({ balance, onSpend, onExit }) {
               <span className="sr-value">{address.name}<br />{address.line1}{address.line2 ? `, ${address.line2}` : ''}<br />{address.city}, {address.state} {address.zip}</span>
             </div>
             <div className="summary-row">
-              <span className="sr-label">Miles redeemed</span>
+              <span className="sr-label">{label} redeemed</span>
               <span className="sr-value deduct">−{formatMiles(cost)}</span>
             </div>
             <div className="summary-row total">
               <span className="sr-label">New balance</span>
-              <span className="sr-value">{formatMiles(newBalance)} miles</span>
+              <span className="sr-value">{formatMiles(newBalance)} {unit}</span>
             </div>
           </div>
         </div>

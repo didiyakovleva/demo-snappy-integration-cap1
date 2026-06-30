@@ -7,11 +7,12 @@ import SendGift from './flows/SendGift.jsx'
 import ShopForSelf from './flows/ShopForSelf.jsx'
 import FundedReward from './flows/FundedReward.jsx'
 import { CARDHOLDER, ACCOUNTS, FUNDED_OFFER, formatMiles, formatDollars } from './data/mock.js'
+import { CurrencyContext, useCurrency, currencyFromAccount } from './currency.js'
 
 // Existing Capital One redeem options (from the screenshots) — static chrome.
 const EXISTING_REDEEM = [
   { icon: '✈️', title: 'Book a trip', desc: 'Redeem with your travel booking site, the smarter way to book flights, hotels and rental cars.' },
-  { icon: '🔁', title: 'Transfer rewards', desc: 'Transfer miles to rack up rewards with one of your travel loyalty programs.' },
+  { icon: '🔁', title: 'Transfer rewards', desc: 'Transfer your rewards to one of your travel loyalty programs.' },
   { icon: '🧾', title: 'Cover travel purchases', desc: 'Get reimbursed for a recent travel purchase.' },
   { icon: '🎟️', title: 'Book entertainment', desc: "Use your rewards on 1,000's of sporting events, concerts & more with Capital One Entertainment." },
   { icon: '🅿️', title: 'Redeem with PayPal', desc: 'Use rewards to check out at millions of online stores with PayPal.' },
@@ -20,14 +21,21 @@ const EXISTING_REDEEM = [
 ]
 
 export default function App() {
-  const [balance, setBalance] = useState(CARDHOLDER.startingBalance)
+  // Per-account balances so the selected card's reward currency & value are accurate.
+  const [balances, setBalances] = useState(
+    Object.fromEntries(ACCOUNTS.map((a) => [a.id, a.miles])),
+  )
   const [tab, setTab] = useState('home')
   const [rewardsView, setRewardsView] = useState('benefits') // 'benefits' | 'redeem'
-  const [account, setAccount] = useState(ACCOUNTS[0])
+  const [accountId, setAccountId] = useState(ACCOUNTS[0].id)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [flow, setFlow] = useState(null) // null | 'send' | 'shop' | 'funded'
 
-  const spend = (miles) => setBalance((b) => b - miles)
+  const account = ACCOUNTS.find((a) => a.id === accountId)
+  const balance = balances[accountId]
+  const cur = currencyFromAccount(account) // { label, unit, unitSingular } for the active card
+
+  const spend = (amount) => setBalances((prev) => ({ ...prev, [accountId]: prev[accountId] - amount }))
 
   const goTab = (t) => {
     setTab(t)
@@ -48,7 +56,11 @@ export default function App() {
       flow === 'send' ? <SendGift balance={balance} onSpend={spend} onExit={exitFlow} /> :
       flow === 'shop' ? <ShopForSelf balance={balance} onSpend={spend} onExit={exitFlow} /> :
       <FundedReward balance={balance} onExit={exitFlow} />
-    return <Stage><PhoneFrame showTabBar={false}>{flowEl}</PhoneFrame></Stage>
+    return (
+      <CurrencyContext.Provider value={cur}>
+        <Stage><PhoneFrame showTabBar={false}>{flowEl}</PhoneFrame></Stage>
+      </CurrencyContext.Provider>
+    )
   }
 
   // ── Account-select bottom sheet ────────────────────────────────────────────
@@ -58,14 +70,14 @@ export default function App() {
         <button
           key={a.id}
           className="acct-row"
-          onClick={() => { setAccount(a); setSheetOpen(false); setTab('rewards'); setRewardsView('redeem') }}
+          onClick={() => { setAccountId(a.id); setSheetOpen(false); setTab('rewards'); setRewardsView('redeem') }}
         >
           <span className="acct-art">{a.name.split(' ')[0].toUpperCase()}</span>
           <span className="acct-body">
             <span className="acct-name">{a.name} ····{a.last4}</span>
-            <span className="acct-sub">{formatMiles(a.primary ? balance : a.miles)} {a.currency}</span>
+            <span className="acct-sub">{formatMiles(balances[a.id])} {a.currency}</span>
           </span>
-          <span className={`radio ${account.id === a.id ? 'checked' : ''}`} />
+          <span className={`radio ${accountId === a.id ? 'checked' : ''}`} />
         </button>
       ))}
     </BottomSheet>
@@ -94,11 +106,13 @@ export default function App() {
   }
 
   return (
-    <Stage>
-      <PhoneFrame sheet={sheet} activeTab={tab} onTabSelect={goTab}>
-        {content}
-      </PhoneFrame>
-    </Stage>
+    <CurrencyContext.Provider value={cur}>
+      <Stage>
+        <PhoneFrame sheet={sheet} activeTab={tab} onTabSelect={goTab}>
+          {content}
+        </PhoneFrame>
+      </Stage>
+    </CurrencyContext.Provider>
   )
 }
 
@@ -149,12 +163,13 @@ function HomeScreen({ onOpenRewards, onLaunch }) {
 
 /* ───────────────────────── Rewards & Benefits ──────────────────────────────── */
 function RewardsBenefits({ balance, onRedeem }) {
+  const { label } = useCurrency()
   return (
     <div>
       <div className="app-header light">Rewards &amp; Benefits</div>
       <div className="screen-pad">
         <div className="rb-balance">{formatMiles(balance)}</div>
-        <div className="rb-balance-label">Miles</div>
+        <div className="rb-balance-label">{label}</div>
         <div className="spacer-md" />
         <button className="btn btn-primary" onClick={onRedeem}>Redeem</button>
 
@@ -184,6 +199,7 @@ function RewardsBenefits({ balance, onRedeem }) {
 
 /* ───────────────────────── Redeem list (with 2 Snappy rows) ────────────────── */
 function RedeemList({ account, balance, onClose, onSend, onShop }) {
+  const { unit, unitSingular } = useCurrency()
   return (
     <div>
       <NavyHeader accountLabel={account.name.toUpperCase()} last4={account.last4} balance={balance} onClose={onClose} />
@@ -198,14 +214,14 @@ function RedeemList({ account, balance, onClose, onSend, onShop }) {
             snappy
             icon="🎀"
             title="Send a gift"
-            description="Use miles to send a curated gift someone gets to choose."
+            description={`Use ${unit} to send a curated gift someone gets to choose.`}
             onClick={onSend}
           />
           <ListRow
             snappy
             icon="🛍️"
             title="Shop gifts for yourself"
-            description="Spend miles on a gift, shipped to you."
+            description={`Spend ${unit} on a gift, shipped to you.`}
             onClick={onShop}
           />
 
@@ -213,7 +229,7 @@ function RedeemList({ account, balance, onClose, onSend, onShop }) {
         </div>
         <div className="demo-note">
           Gifting rows are Snappy, embedded in Capital One's redeem list. Every value shows
-          $ and miles (1 mile = $0.01, demo rate).
+          $ and {unit} (1 {unitSingular} = $0.01, demo rate).
         </div>
         <div className="spacer-md" />
       </div>
@@ -223,6 +239,7 @@ function RedeemList({ account, balance, onClose, onSend, onShop }) {
 
 /* ───────────────────────── Offers tab (Flow 3 entry) ───────────────────────── */
 function OffersScreen({ onClaim }) {
+  const { unit } = useCurrency()
   return (
     <div>
       <div className="app-header light">Offers</div>
@@ -230,13 +247,13 @@ function OffersScreen({ onClaim }) {
         <button className="promo-card" style={{ width: '100%', textAlign: 'left', cursor: 'pointer', background: 'linear-gradient(150deg, #0a7d52 0%, #095f57 100%)' }} onClick={onClaim}>
           <span className="promo-tag">New · Welcome reward</span>
           <div className="promo-title">You've earned a {formatDollars(FUNDED_OFFER.dollars)} gift 🎁</div>
-          <div className="promo-sub">Funded by Capital One for opening your new {FUNDED_OFFER.product}. No miles required — tap to claim.</div>
+          <div className="promo-sub">Funded by Capital One for opening your new {FUNDED_OFFER.product}. No {unit} required — tap to claim.</div>
         </button>
 
         <div className="spacer-md" />
         <div className="info-banner">
           <span className="ib-icon">💡</span>
-          <div>This is an <strong>inbound, funded</strong> gift — Capital One pays, you just claim it. Distinct from spending your own miles on the Redeem list.</div>
+          <div>This is an <strong>inbound, funded</strong> gift — Capital One pays, you just claim it. Distinct from spending your own {unit} on the Redeem list.</div>
         </div>
 
         <div className="section-label">More offers</div>

@@ -3,14 +3,16 @@ import { ScreenHeader } from '../components/Headers.jsx'
 import GiftCard from '../components/GiftCard.jsx'
 import ConfirmationScreen from '../components/ConfirmationScreen.jsx'
 import { FUNDED_OFFER, MOCK_ADDRESS, formatDollars, formatMiles } from '../data/mock.js'
+import { useCurrency } from '../currency.js'
 
 /**
- * Flow 3 — Reward for signing up (INBOUND: funded by Capital One, NO miles spent).
+ * Flow 3 — Reward for signing up (INBOUND: funded by Capital One, NO miles/points spent).
  * Visually distinct: "Funded by Capital One" badge, celebratory framing, and no
- * miles deduction anywhere.
+ * balance deduction anywhere.
  * Steps: welcome/claim → choose → confirm + ship → confirmation.
  */
 export default function FundedReward({ balance, onExit }) {
+  const { unit } = useCurrency()
   const [step, setStep] = useState('welcome')
   const [choice, setChoice] = useState(null)
   const [address, setAddress] = useState(MOCK_ADDRESS)
@@ -35,7 +37,7 @@ export default function FundedReward({ balance, onExit }) {
             <div>
               <span className="funded-badge">Funded by Capital One</span>
               <div style={{ marginTop: 8 }}>
-                This is a reward — <strong>no miles are spent</strong>. Your balance of {formatMiles(balance)} miles
+                This is a reward — <strong>no {unit} are spent</strong>. Your balance of {formatMiles(balance)} {unit}
                 stays exactly as it is. Just pick the gift you'd like from a curated set.
               </div>
             </div>
@@ -57,7 +59,7 @@ export default function FundedReward({ balance, onExit }) {
           <div style={{ marginBottom: 12 }}>
             <span className="funded-badge">Funded by Capital One · {formatDollars(FUNDED_OFFER.dollars)}</span>
           </div>
-          <div className="section-sub">Pick one — it's already paid for. No miles required.</div>
+          <div className="section-sub">Pick one — it's already paid for. No {unit} required.</div>
           <div className="gift-grid">
             {FUNDED_OFFER.items.map((it) => (
               <GiftCard

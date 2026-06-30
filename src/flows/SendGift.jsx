@@ -4,12 +4,14 @@ import GiftCard from '../components/GiftCard.jsx'
 import MilesBadge from '../components/MilesBadge.jsx'
 import ConfirmationScreen from '../components/ConfirmationScreen.jsx'
 import { COLLECTIONS, CARDHOLDER, milesForDollars, formatMiles } from '../data/mock.js'
+import { useCurrency } from '../currency.js'
 
 /**
- * Flow 1 — Send a gift collection (OUTBOUND: cardholder spends their own miles).
+ * Flow 1 — Send a gift collection (OUTBOUND: cardholder spends their own miles/points).
  * Steps: choose collection → set value → recipient + message → review → confirm.
  */
 export default function SendGift({ balance, onSpend, onExit }) {
+  const { unit, label, unitSingular } = useCurrency()
   const [step, setStep] = useState('collection')
   const [collection, setCollection] = useState(null)
   const [recipient, setRecipient] = useState({ name: '', email: '', note: '', sender: CARDHOLDER.firstName })
@@ -25,7 +27,7 @@ export default function SendGift({ balance, onSpend, onExit }) {
         <ScreenHeader title="Send a gift" onClose={onExit} />
         <div className="screen-pad">
           <div className="section-sub">
-            Spend miles to send a gift. The recipient chooses what they want from the
+            Spend {unit} to send a gift. The recipient chooses what they want from the
             collection — Snappy handles the rest.
           </div>
           <div className="gift-grid">
@@ -37,7 +39,7 @@ export default function SendGift({ balance, onSpend, onExit }) {
               />
             ))}
           </div>
-          <div className="demo-note">Rate shown is 1 mile = $0.01, for demo purposes.</div>
+          <div className="demo-note">Rate shown is 1 {unitSingular} = $0.01, for demo purposes.</div>
         </div>
       </div>
     )
@@ -60,19 +62,19 @@ export default function SendGift({ balance, onSpend, onExit }) {
             </div>
             <div className="summary-row">
               <span className="sr-label">Your balance</span>
-              <span className="sr-value">{formatMiles(balance)} miles</span>
+              <span className="sr-value">{formatMiles(balance)} {unit}</span>
             </div>
             <div className="summary-row total">
               <span className="sr-label">Balance after</span>
               <span className={`sr-value ${insufficient ? 'deduct' : ''}`}>
-                {insufficient ? 'Not enough miles' : `${formatMiles(newBalance)} miles`}
+                {insufficient ? `Not enough ${unit}` : `${formatMiles(newBalance)} ${unit}`}
               </span>
             </div>
           </div>
 
           {insufficient && (
             <div className="balance-strip insufficient">
-              <span className="bs-label">You need {formatMiles(cost - balance)} more miles</span>
+              <span className="bs-label">You need {formatMiles(cost - balance)} more {unit}</span>
             </div>
           )}
         </div>
@@ -167,12 +169,12 @@ export default function SendGift({ balance, onSpend, onExit }) {
               </div>
             )}
             <div className="summary-row">
-              <span className="sr-label">Miles deducted</span>
+              <span className="sr-label">{label} deducted</span>
               <span className="sr-value deduct">−{formatMiles(cost)}</span>
             </div>
             <div className="summary-row total">
               <span className="sr-label">New balance</span>
-              <span className="sr-value">{formatMiles(newBalance)} miles</span>
+              <span className="sr-value">{formatMiles(newBalance)} {unit}</span>
             </div>
           </div>
         </div>

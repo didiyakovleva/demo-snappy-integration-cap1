@@ -1,5 +1,6 @@
 import MilesBadge from './MilesBadge.jsx'
 import { formatMiles } from '../data/mock.js'
+import { useCurrency } from '../currency.js'
 
 /** Light header bar with optional back arrow, centered title, optional close. */
 export function ScreenHeader({ title, onBack, onClose }) {
@@ -17,6 +18,7 @@ export function ScreenHeader({ title, onBack, onClose }) {
  * balance, and a close button. Used on the Redeem list and flow entry screens.
  */
 export function NavyHeader({ accountLabel, last4, balance, onClose, children }) {
+  const { label } = useCurrency()
   return (
     <div className="navy-header">
       <div className="nh-top">
@@ -27,7 +29,7 @@ export function NavyHeader({ accountLabel, last4, balance, onClose, children }) 
       {balance != null && (
         <>
           <div className="nh-balance">{formatMiles(balance)}</div>
-          <div className="nh-balance-label">Miles</div>
+          <div className="nh-balance-label">{label}</div>
         </>
       )}
       {children}

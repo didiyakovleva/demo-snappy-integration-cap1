@@ -1,4 +1,5 @@
 import { formatMiles } from '../data/mock.js'
+import { useCurrency } from '../currency.js'
 
 /**
  * Shared confirmation screen. `balanceChanged` is false for Flow 3 (funded
@@ -17,6 +18,7 @@ export default function ConfirmationScreen({
   onDone,
   doneLabel = 'Done',
 }) {
+  const { label: curLabel, unit } = useCurrency()
   return (
     <div>
       <div className="confirm-wrap">
@@ -36,20 +38,20 @@ export default function ConfirmationScreen({
             ))}
             {balanceChanged && milesSpent != null && (
               <div className="summary-row">
-                <span className="sr-label">Miles redeemed</span>
+                <span className="sr-label">{curLabel} redeemed</span>
                 <span className="sr-value deduct">−{formatMiles(milesSpent)}</span>
               </div>
             )}
             {balanceChanged && newBalance != null && (
               <div className="summary-row total">
                 <span className="sr-label">New balance</span>
-                <span className="sr-value">{formatMiles(newBalance)} miles</span>
+                <span className="sr-value">{formatMiles(newBalance)} {unit}</span>
               </div>
             )}
             {!balanceChanged && (
               <div className="summary-row total">
-                <span className="sr-label">Miles balance</span>
-                <span className="sr-value positive">Unchanged · {formatMiles(newBalance)} miles</span>
+                <span className="sr-label">{curLabel} balance</span>
+                <span className="sr-value positive">Unchanged · {formatMiles(newBalance)} {unit}</span>
               </div>
             )}
           </div>
