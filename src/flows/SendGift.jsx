@@ -50,9 +50,21 @@ export default function SendGift({ balance, onSpend, onExit }) {
     return (
       <div>
         <ScreenHeader title="Gift value" onBack={() => setStep('collection')} onClose={onExit} />
+
+        {/* Collection image as a full-width cover header */}
+        <div className="cover" style={{ background: `linear-gradient(150deg, hsl(${collection.hue} 45% 82%) 0%, hsl(${collection.hue} 40% 64%) 100%)` }}>
+          <span className="cover-emoji" aria-hidden="true">{collection.emoji}</span>
+          {collection.img && (
+            <img className="cover-img" src={collection.img} alt={collection.title} onError={(e) => { e.currentTarget.style.display = 'none' }} />
+          )}
+          <span className="cover-tag">{collection.occasion}</span>
+          <div className="cover-overlay">
+            <div className="cover-title">{collection.title}</div>
+            <div className="cover-price"><MilesBadge dollars={collection.dollars} inverse /></div>
+          </div>
+        </div>
+
         <div className="screen-pad">
-          <GiftCard item={collection} />
-          <div className="spacer-md" />
           <div className="section-sub">{collection.blurb}</div>
 
           {/* Preview of what's inside — the recipient picks one of these */}
