@@ -28,7 +28,7 @@ export default function SendGift({ balance, onSpend, onExit }) {
         <div className="screen-pad">
           <div className="section-sub">
             Spend {unit} to send a gift. The recipient chooses what they want from the
-            collection — Snappy handles the rest.
+            collection — we handle the rest.
           </div>
           <div className="gift-grid">
             {COLLECTIONS.map((c) => (

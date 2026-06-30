@@ -1,5 +1,5 @@
 /*
- * Snappy × Capital One — design tokens
+ * White-label × Capital One — design tokens
  * Semantic token names so the same components can re-skin for another partner
  * (theme-agnostic embed pattern). The values below are the Capital One theme.
  */
@@ -237,9 +237,8 @@ button {
 .list-row .lr-desc { display: block; font-size: var(--fs-body); color: var(--color-text-secondary); margin-top: 4px; line-height: 1.4; }
 .list-row .lr-chevron { flex: 0 0 auto; color: #b0b0b0; font-size: 20px; align-self: center; }
 
-/* Snappy-introduced rows get a subtle left marker */
-.list-row.snappy-row .lr-title::after {
-  content: "Snappy";
+/* "New" tag on freshly added redeem rows */
+.list-row .lr-tag {
   display: inline-block;
   margin-left: 8px;
   font-size: 10px;
@@ -551,7 +550,7 @@ button {
 .promo-card .promo-title { font-size: 19px; font-weight: 700; }
 .promo-card .promo-sub { font-size: var(--fs-body); opacity: 0.92; margin-top: 6px; line-height: 1.4; }
 
-/* Muted variant — recedes so the Snappy card reads as the primary CTA */
+/* Muted variant — recedes so the featured gift card reads as the primary CTA */
 .promo-card.muted {
   min-height: 120px;
   background: linear-gradient(160deg, #8b8b93 0%, #5f6b78 100%);
@@ -560,8 +559,8 @@ button {
 .promo-card.muted .promo-title { font-size: 17px; }
 .promo-card.muted .promo-sub { font-size: var(--fs-small); }
 
-/* ---------- Snappy "Treat yourself" promo card ---------- */
-.snappy-promo {
+/* ---------- "Treat yourself" featured gift promo card ---------- */
+.feature-promo {
   display: block;
   width: 100%;
   text-align: left;
@@ -573,7 +572,7 @@ button {
   box-shadow: 0 14px 30px rgba(1, 43, 57, 0.22);
   transition: transform 0.12s ease, box-shadow 0.12s ease;
 }
-.snappy-promo:active { transform: scale(0.99); }
+.feature-promo:active { transform: scale(0.99); }
 .sp-hero {
   position: relative;
   display: grid;

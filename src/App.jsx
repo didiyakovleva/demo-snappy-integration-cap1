@@ -9,8 +9,8 @@ import FundedReward from './flows/FundedReward.jsx'
 import { CARDHOLDER, ACCOUNTS, FUNDED_OFFER, formatMiles, formatDollars } from './data/mock.js'
 import { CurrencyContext, useCurrency, currencyFromAccount } from './currency.js'
 
-// Featured products shown in the Snappy "Treat yourself" promo card.
-const SNAPPY_PROMO_PRODUCTS = [
+// Featured products shown in the "Treat yourself" promo card.
+const PROMO_PRODUCTS = [
   { emoji: '🎧', hue: 210, img: '/products/earbuds.jpg' },
   { emoji: '🧶', hue: 25, img: '/products/throw.jpg' },
   { emoji: '☕', hue: 22, img: '/products/coffee.jpg' },
@@ -129,8 +129,8 @@ function Stage({ children }) {
   return (
     <>
       <div className="stage-caption">
-        <strong>Snappy × Capital One — Rewards integration demo.</strong> Clickable prototype, mock data only.
-        Snappy wears Capital One's chrome; warmth comes from the gifts.
+        <strong>Capital One — Rewards integration demo.</strong> Clickable prototype, mock data only.
+        The gifting experience adopts Capital One's look and feel; warmth comes from the gifts.
       </div>
       {children}
     </>
@@ -183,11 +183,11 @@ function RewardsBenefits({ balance, onRedeem, onTreatYourself }) {
 
         <div className="section-label">Elevate your lifestyle</div>
 
-        {/* Snappy — promoted first, above the travel card */}
-        <button className="snappy-promo" onClick={onTreatYourself}>
+        {/* Featured gift promo — promoted first, above the travel card */}
+        <button className="feature-promo" onClick={onTreatYourself}>
           <div className="sp-hero">
             <span className="sp-featured">★ Featured</span>
-            {SNAPPY_PROMO_PRODUCTS.map((p, i) => (
+            {PROMO_PRODUCTS.map((p, i) => (
               <div
                 key={i}
                 className="sp-thumb"
@@ -199,16 +199,16 @@ function RewardsBenefits({ balance, onRedeem, onTreatYourself }) {
             ))}
           </div>
           <div className="sp-body">
-            <span className="sp-tag">Gifts with Snappy</span>
+            <span className="sp-tag">New</span>
             <div className="sp-title">Treat yourself</div>
             <div className="sp-sub">Turn your {unit} into curated gifts — picked by you, delivered to your door.</div>
-            <span className="sp-cta">Redeem with Snappy</span>
+            <span className="sp-cta">Redeem now</span>
           </div>
         </button>
 
         <div className="spacer-md" />
 
-        {/* Travel — toned down so the Snappy card leads */}
+        {/* Travel — toned down so the featured gift card leads */}
         <div className="promo-card muted">
           <span className="promo-tag">Travel &amp; lounges</span>
           <div className="promo-title">Explore travel and lounges</div>
@@ -232,7 +232,7 @@ function RewardsBenefits({ balance, onRedeem, onTreatYourself }) {
   )
 }
 
-/* ───────────────────────── Redeem list (with 2 Snappy rows) ────────────────── */
+/* ───────────────────────── Redeem list (with 2 new gifting rows) ───────────── */
 function RedeemList({ account, balance, onClose, onSend, onShop }) {
   const { unit, unitSingular } = useCurrency()
   return (
@@ -244,16 +244,16 @@ function RedeemList({ account, balance, onClose, onSend, onShop }) {
             <ListRow key={r.title} icon={r.icon} title={r.title} description={r.desc} onClick={() => {}} />
           ))}
 
-          {/* ── Snappy insertion point: two new gifting rows ── */}
+          {/* ── Insertion point: two new gifting rows ── */}
           <ListRow
-            snappy
+            tag="New"
             icon="🎀"
             title="Send a gift"
             description={`Use ${unit} to send a curated gift someone gets to choose.`}
             onClick={onSend}
           />
           <ListRow
-            snappy
+            tag="New"
             icon="🛍️"
             title="Shop gifts for yourself"
             description={`Spend ${unit} on a gift, shipped to you.`}
@@ -263,7 +263,7 @@ function RedeemList({ account, balance, onClose, onSend, onShop }) {
           <ListRow icon="💵" title="Redeem for cash" description="Use rewards to get cash back." onClick={() => {}} />
         </div>
         <div className="demo-note">
-          Gifting rows are Snappy, embedded in Capital One's redeem list. Every value shows
+          New gifting rows embedded in Capital One's redeem list. Every value shows
           $ and {unit} (1 {unitSingular} = $0.01, demo rate).
         </div>
         <div className="spacer-md" />
