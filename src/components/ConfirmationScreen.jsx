@@ -1,5 +1,6 @@
 import { formatMiles } from '../data/mock.js'
 import { useCurrency } from '../currency.js'
+import Confetti from './Confetti.jsx'
 
 /**
  * Shared confirmation screen. `balanceChanged` is false for Flow 3 (funded
@@ -21,6 +22,7 @@ export default function ConfirmationScreen({
   const { label: curLabel, unit } = useCurrency()
   return (
     <div>
+      <Confetti />
       <div className="confirm-wrap">
         <div className={`confirm-check ${funded ? 'funded' : ''}`}>✓</div>
         <div className="confirm-title">{title}</div>
