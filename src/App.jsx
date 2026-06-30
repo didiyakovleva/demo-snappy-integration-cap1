@@ -186,6 +186,7 @@ function RewardsBenefits({ balance, onRedeem, onTreatYourself }) {
         {/* Snappy — promoted first, above the travel card */}
         <button className="snappy-promo" onClick={onTreatYourself}>
           <div className="sp-hero">
+            <span className="sp-featured">★ Featured</span>
             {SNAPPY_PROMO_PRODUCTS.map((p, i) => (
               <div
                 key={i}
@@ -200,14 +201,14 @@ function RewardsBenefits({ balance, onRedeem, onTreatYourself }) {
             <span className="sp-tag">Gifts with Snappy</span>
             <div className="sp-title">Treat yourself</div>
             <div className="sp-sub">Turn your {unit} into curated gifts — picked by you, delivered to your door.</div>
-            <span className="sp-cta">Redeem with Snappy ›</span>
+            <span className="sp-cta">Redeem with Snappy</span>
           </div>
         </button>
 
         <div className="spacer-md" />
 
-        {/* Travel — pushed down */}
-        <div className="promo-card">
+        {/* Travel — toned down so the Snappy card leads */}
+        <div className="promo-card muted">
           <span className="promo-tag">Travel &amp; lounges</span>
           <div className="promo-title">Explore travel and lounges</div>
           <div className="promo-sub">Earn unlimited rewards on flights, stays and cars, and explore our network of premium lounges.</div>
