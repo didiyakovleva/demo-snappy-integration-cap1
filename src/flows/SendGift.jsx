@@ -24,7 +24,7 @@ export default function SendGift({ balance, onSpend, onExit }) {
   if (step === 'collection') {
     return (
       <div>
-        <ScreenHeader title="Send a gift" onClose={onExit} />
+        <ScreenHeader title="Send a gift collection" onClose={onExit} />
         <div className="screen-pad">
           <div className="section-sub">
             Spend {unit} to send a gift. The recipient chooses what they want from the
