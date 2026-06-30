@@ -11,10 +11,10 @@ import { CurrencyContext, useCurrency, currencyFromAccount } from './currency.js
 
 // Featured products shown in the Snappy "Treat yourself" promo card.
 const SNAPPY_PROMO_PRODUCTS = [
-  { emoji: '🎧', hue: 210 },
-  { emoji: '🧶', hue: 25 },
-  { emoji: '☕', hue: 22 },
-  { emoji: '🌸', hue: 320 },
+  { emoji: '🎧', hue: 210, img: '/products/earbuds.jpg' },
+  { emoji: '🧶', hue: 25, img: '/products/throw.jpg' },
+  { emoji: '☕', hue: 22, img: '/products/coffee.jpg' },
+  { emoji: '💐', hue: 320, img: '/products/thinking.jpg' },
 ]
 
 // Existing Capital One redeem options (from the screenshots) — static chrome.
@@ -193,7 +193,8 @@ function RewardsBenefits({ balance, onRedeem, onTreatYourself }) {
                 className="sp-thumb"
                 style={{ background: `linear-gradient(150deg, hsl(${p.hue} 45% 88%) 0%, hsl(${p.hue} 38% 74%) 100%)` }}
               >
-                <span aria-hidden="true">{p.emoji}</span>
+                <span className="gp-emoji" aria-hidden="true">{p.emoji}</span>
+                <img className="gift-img" src={p.img} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none' }} />
               </div>
             ))}
           </div>

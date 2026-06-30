@@ -66,7 +66,17 @@ export default function ShopForSelf({ balance, onSpend, onExit }) {
       <div>
         <ScreenHeader title="" onBack={() => setStep('browse')} onClose={onExit} />
         <div className="screen-pad" style={{ paddingTop: 0 }}>
-          <div className="detail-photo" style={photoStyle(item.hue)}>{item.emoji}</div>
+          <div className="detail-photo" style={photoStyle(item.hue)}>
+            <span className="gp-emoji" aria-hidden="true">{item.emoji}</span>
+            {item.img && (
+              <img
+                className="gift-img"
+                src={item.img}
+                alt={item.name}
+                onError={(e) => { e.currentTarget.style.display = 'none' }}
+              />
+            )}
+          </div>
           <div className="detail-name">{item.name}</div>
           <div style={{ marginTop: 8 }}><MilesBadge dollars={item.dollars} size="large" /></div>
           <div className="detail-desc">{item.desc}</div>

@@ -14,7 +14,17 @@ export default function GiftCard({ item, onClick, selected = false, hidePrice = 
     <button className={`gift-card ${selected ? 'selected' : ''}`} onClick={onClick}>
       <div className="gift-photo" style={photoStyle}>
         {item.occasion && <span className="gp-occasion">{item.occasion}</span>}
-        <span aria-hidden="true">{item.emoji}</span>
+        {/* emoji sits behind as a fallback; the photo covers it once loaded */}
+        <span className="gp-emoji" aria-hidden="true">{item.emoji}</span>
+        {item.img && (
+          <img
+            className="gift-img"
+            src={item.img}
+            alt={item.title || item.name || ''}
+            loading="lazy"
+            onError={(e) => { e.currentTarget.style.display = 'none' }}
+          />
+        )}
       </div>
       <div className="gc-body">
         <div className="gc-title">{item.title || item.name}</div>

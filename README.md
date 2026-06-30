@@ -50,6 +50,10 @@ npm run preview  # preview the build
 - **Mock data** (`src/data/mock.js`): fictional cardholder ("Alex Rivera"),
   46,763-mile balance, gift collections, catalog, and one funded offer. No real
   names, card numbers, or data from the source screenshots.
+- **Product photography** (`public/products/`): real photos from
+  [Unsplash](https://unsplash.com) (free to use under the Unsplash License),
+  bundled locally so the demo works fully offline. Each gift card falls back to
+  an emoji + gradient if an image is ever missing.
 
 ## Out of scope
 
