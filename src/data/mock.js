@@ -21,13 +21,68 @@ export const ACCOUNTS = [
 ]
 
 // Flow 1 — gift collections (by occasion / value tier)
+// Each collection holds the items the recipient gets to choose from (preview).
 export const COLLECTIONS = [
-  { id: 'thankyou', title: 'Thank You', occasion: 'Thank You', emoji: '🌿', img: '/products/thankyou.jpg', dollars: 50, hue: 158, blurb: 'A curated set of cozy picks to say thanks.' },
-  { id: 'birthday', title: 'Happy Birthday', occasion: 'Birthday', emoji: '🎂', img: '/products/birthday.jpg', dollars: 75, hue: 28, blurb: 'Celebrate them with a choice of joyful gifts.' },
-  { id: 'congrats', title: 'Congrats', occasion: 'Congrats', emoji: '🎉', img: '/products/congrats.jpg', dollars: 100, hue: 268, blurb: 'Mark the milestone with something memorable.' },
-  { id: 'thinking', title: 'Thinking of You', occasion: 'Just Because', emoji: '💐', img: '/products/thinking.jpg', dollars: 60, hue: 330, blurb: 'A warm pick-me-up, no occasion needed.' },
-  { id: 'welcomehome', title: 'Welcome Home', occasion: 'New Home', emoji: '🏡', img: '/products/welcomehome.jpg', dollars: 125, hue: 200, blurb: 'Housewarming favorites they get to choose.' },
-  { id: 'cheers', title: 'Cheers', occasion: 'Celebration', emoji: '🥂', img: '/products/cheers.jpg', dollars: 150, hue: 45, blurb: 'Premium treats for a special toast.' },
+  {
+    id: 'thankyou', title: 'Thank You', occasion: 'Thank You', emoji: '🌿', img: '/products/thankyou.jpg', dollars: 50, hue: 158,
+    blurb: 'A curated set of cozy picks to say thanks.',
+    items: [
+      { name: 'Hand-Poured Soy Candle', emoji: '🕯️', img: '/products/candle.jpg' },
+      { name: 'Single-Origin Coffee Kit', emoji: '☕', img: '/products/coffee.jpg' },
+      { name: 'Loose-Leaf Tea Sampler', emoji: '🍵', img: '/products/teaset.jpg' },
+      { name: 'Artisan Chocolate Box', emoji: '🍫', img: '/products/chocolate.jpg' },
+    ],
+  },
+  {
+    id: 'birthday', title: 'Happy Birthday', occasion: 'Birthday', emoji: '🎂', img: '/products/birthday.jpg', dollars: 75, hue: 28,
+    blurb: 'Celebrate them with a choice of joyful gifts.',
+    items: [
+      { name: 'Portable Speaker', emoji: '🔊', img: '/products/speaker.jpg' },
+      { name: 'Artisan Chocolate Box', emoji: '🍫', img: '/products/chocolate.jpg' },
+      { name: 'Hand-Poured Soy Candle', emoji: '🕯️', img: '/products/candle.jpg' },
+      { name: 'Potted Monstera', emoji: '🪴', img: '/products/plant.jpg' },
+    ],
+  },
+  {
+    id: 'congrats', title: 'Congrats', occasion: 'Congrats', emoji: '🎉', img: '/products/congrats.jpg', dollars: 100, hue: 268,
+    blurb: 'Mark the milestone with something memorable.',
+    items: [
+      { name: 'Wireless Earbuds', emoji: '🎧', img: '/products/earbuds.jpg' },
+      { name: 'Chunky Knit Throw', emoji: '🧶', img: '/products/throw.jpg' },
+      { name: 'Single-Origin Coffee Kit', emoji: '☕', img: '/products/coffee.jpg' },
+      { name: 'Artisan Chocolate Box', emoji: '🍫', img: '/products/chocolate.jpg' },
+    ],
+  },
+  {
+    id: 'thinking', title: 'Thinking of You', occasion: 'Just Because', emoji: '💐', img: '/products/thinking.jpg', dollars: 60, hue: 330,
+    blurb: 'A warm pick-me-up, no occasion needed.',
+    items: [
+      { name: 'Hand-Poured Soy Candle', emoji: '🕯️', img: '/products/candle.jpg' },
+      { name: 'Aroma Diffuser Set', emoji: '🌸', img: '/products/diffuser.jpg' },
+      { name: 'Loose-Leaf Tea Sampler', emoji: '🍵', img: '/products/teaset.jpg' },
+      { name: 'Artisan Chocolate Box', emoji: '🍫', img: '/products/chocolate.jpg' },
+    ],
+  },
+  {
+    id: 'welcomehome', title: 'Welcome Home', occasion: 'New Home', emoji: '🏡', img: '/products/welcomehome.jpg', dollars: 125, hue: 200,
+    blurb: 'Housewarming favorites they get to choose.',
+    items: [
+      { name: 'Chunky Knit Throw', emoji: '🧶', img: '/products/throw.jpg' },
+      { name: 'Potted Monstera', emoji: '🪴', img: '/products/plant.jpg' },
+      { name: 'Hand-Poured Soy Candle', emoji: '🕯️', img: '/products/candle.jpg' },
+      { name: 'Aroma Diffuser Set', emoji: '🌸', img: '/products/diffuser.jpg' },
+    ],
+  },
+  {
+    id: 'cheers', title: 'Cheers', occasion: 'Celebration', emoji: '🥂', img: '/products/cheers.jpg', dollars: 150, hue: 45,
+    blurb: 'Premium treats for a special toast.',
+    items: [
+      { name: 'Portable Speaker', emoji: '🔊', img: '/products/speaker.jpg' },
+      { name: 'Wireless Earbuds', emoji: '🎧', img: '/products/earbuds.jpg' },
+      { name: 'Artisan Chocolate Box', emoji: '🍫', img: '/products/chocolate.jpg' },
+      { name: 'Single-Origin Coffee Kit', emoji: '☕', img: '/products/coffee.jpg' },
+    ],
+  },
 ]
 
 // Flow 2 — individual catalog items
@@ -61,6 +116,23 @@ export const FUNDED_OFFER = {
     { id: 'f-earbuds', name: 'Wireless Earbuds',      emoji: '🎧', img: '/products/earbuds.jpg', hue: 210, desc: 'True-wireless earbuds with active noise cancellation.' },
     { id: 'f-coffee',  name: 'Coffee Lover Bundle',   emoji: '☕', img: '/products/coffee.jpg',  hue: 22,  desc: 'Single-origin beans, a pour-over dripper, and two mugs.' },
     { id: 'f-spa',     name: 'Spa Day at Home Set',   emoji: '🛁', img: '/products/spa.jpg',     hue: 195, desc: 'Waffle robe, diffuser, and a trio of bath soaks.' },
+  ],
+}
+
+// Acquisition offer — open a new Quicksilver Rewards card, claim a funded $200 gift.
+export const QUICKSILVER_OFFER = {
+  id: 'quicksilver200',
+  title: '$200 Welcome Gift',
+  dollars: 200,
+  product: 'Quicksilver Rewards card',
+  blurb: 'Open a new Quicksilver Rewards card and choose a $200 welcome gift, on us — no points required.',
+  items: [
+    { id: 'q-earbuds',   name: 'Wireless Earbuds',     emoji: '🎧', img: '/products/earbuds.jpg',   hue: 210, desc: 'True-wireless earbuds with active noise cancellation.' },
+    { id: 'q-speaker',   name: 'Portable Speaker',     emoji: '🔊', img: '/products/speaker.jpg',   hue: 230, desc: 'Waterproof speaker with big sound and 16-hour battery.' },
+    { id: 'q-throw',     name: 'Chunky Knit Throw',    emoji: '🧶', img: '/products/throw.jpg',     hue: 25,  desc: 'Oversized, machine-washable knit throw in warm oatmeal.' },
+    { id: 'q-spa',       name: 'Spa Day at Home Set',  emoji: '🛁', img: '/products/spa.jpg',       hue: 195, desc: 'Waffle robe, diffuser, and a trio of bath soaks.' },
+    { id: 'q-coffee',    name: 'Coffee Lover Bundle',  emoji: '☕', img: '/products/coffee.jpg',    hue: 22,  desc: 'Single-origin beans, a pour-over dripper, and two mugs.' },
+    { id: 'q-chocolate', name: 'Artisan Chocolate Box', emoji: '🍫', img: '/products/chocolate.jpg', hue: 18, desc: 'A dozen hand-finished bonbons, gift-boxed.' },
   ],
 }
 

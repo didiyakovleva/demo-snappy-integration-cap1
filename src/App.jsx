@@ -6,7 +6,7 @@ import { NavyHeader } from './components/Headers.jsx'
 import SendGift from './flows/SendGift.jsx'
 import ShopForSelf from './flows/ShopForSelf.jsx'
 import FundedReward from './flows/FundedReward.jsx'
-import { CARDHOLDER, ACCOUNTS, FUNDED_OFFER, formatMiles, formatDollars } from './data/mock.js'
+import { CARDHOLDER, ACCOUNTS, FUNDED_OFFER, QUICKSILVER_OFFER, formatMiles, formatDollars } from './data/mock.js'
 import { CurrencyContext, useCurrency, currencyFromAccount } from './currency.js'
 
 // Featured products shown in the "Treat yourself" promo card.
@@ -38,12 +38,19 @@ export default function App() {
   const [accountId, setAccountId] = useState(ACCOUNTS[0].id)
   const [sheetOpen, setSheetOpen] = useState(false)
   const [flow, setFlow] = useState(null) // null | 'send' | 'shop' | 'funded'
+  const [fundedOffer, setFundedOffer] = useState(FUNDED_OFFER) // which offer the funded flow claims
 
   const account = ACCOUNTS.find((a) => a.id === accountId)
   const balance = balances[accountId]
   const cur = currencyFromAccount(account) // { label, unit, unitSingular } for the active card
 
   const spend = (amount) => setBalances((prev) => ({ ...prev, [accountId]: prev[accountId] - amount }))
+
+  // Launch a flow; for the funded flow, choose which offer to claim.
+  const launchFlow = (f, offer) => {
+    if (f === 'funded') setFundedOffer(offer || FUNDED_OFFER)
+    setFlow(f)
+  }
 
   const goTab = (t) => {
     setTab(t)
@@ -63,7 +70,7 @@ export default function App() {
     const flowEl =
       flow === 'send' ? <SendGift balance={balance} onSpend={spend} onExit={exitFlow} /> :
       flow === 'shop' ? <ShopForSelf balance={balance} onSpend={spend} onExit={exitFlow} /> :
-      <FundedReward balance={balance} onExit={exitFlow} />
+      <FundedReward balance={balance} offer={fundedOffer} onExit={exitFlow} />
     return (
       <CurrencyContext.Provider value={cur}>
         <Stage><PhoneFrame showTabBar={false}>{flowEl}</PhoneFrame></Stage>
@@ -94,9 +101,14 @@ export default function App() {
   // ── Screen content per tab ─────────────────────────────────────────────────
   let content
   if (tab === 'home') {
-    content = <HomeScreen onOpenRewards={() => goTab('rewards')} onLaunch={setFlow} />
+    content = <HomeScreen onOpenRewards={() => goTab('rewards')} onLaunch={launchFlow} />
   } else if (tab === 'offers') {
-    content = <OffersScreen onClaim={() => setFlow('funded')} />
+    content = (
+      <OffersScreen
+        onClaimQuicksilver={() => launchFlow('funded', QUICKSILVER_OFFER)}
+        onClaimWelcome={() => launchFlow('funded', FUNDED_OFFER)}
+      />
+    )
   } else if (tab === 'rewards' && rewardsView === 'redeem') {
     content = (
       <RedeemList
@@ -282,14 +294,41 @@ function RedeemList({ account, balance, onClose, onSend, onShop }) {
 }
 
 /* ───────────────────────── Offers tab (Flow 3 entry) ───────────────────────── */
-function OffersScreen({ onClaim }) {
+function OffersScreen({ onClaimQuicksilver, onClaimWelcome }) {
   const { unit } = useCurrency()
   return (
     <div>
       <div className="app-header light">Offers</div>
       <div className="screen-pad">
-        <button className="promo-card" style={{ width: '100%', textAlign: 'left', cursor: 'pointer', background: 'linear-gradient(150deg, #0a7d52 0%, #095f57 100%)' }} onClick={onClaim}>
-          <span className="promo-tag">New · Welcome reward</span>
+        {/* Acquisition offer — Quicksilver card, $200 gift, with gift options shown inside */}
+        <button className="feature-promo" onClick={onClaimQuicksilver}>
+          <div className="sp-hero">
+            <span className="sp-featured">{formatDollars(QUICKSILVER_OFFER.dollars)} gift</span>
+            {QUICKSILVER_OFFER.items.slice(0, 4).map((it, i) => (
+              <div
+                key={i}
+                className="sp-thumb"
+                style={{ background: `linear-gradient(150deg, hsl(${it.hue} 45% 88%) 0%, hsl(${it.hue} 38% 74%) 100%)` }}
+              >
+                <span className="gp-emoji" aria-hidden="true">{it.emoji}</span>
+                <img className="gift-img" src={it.img} alt="" loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none' }} />
+              </div>
+            ))}
+          </div>
+          <div className="sp-body">
+            <span className="sp-tag">New cardholder offer</span>
+            <div className="sp-title" style={{ fontSize: 19, lineHeight: 1.25 }}>
+              Sign up for the Quicksilver Rewards card, get a {formatDollars(QUICKSILVER_OFFER.dollars)} gift
+            </div>
+            <div className="sp-sub">Choose your welcome gift from the set above — funded by Capital One, no {unit} required.</div>
+            <span className="sp-cta">See your gift options</span>
+          </div>
+        </button>
+
+        <div className="spacer-md" />
+
+        <button className="promo-card" style={{ width: '100%', textAlign: 'left', cursor: 'pointer', background: 'linear-gradient(150deg, #0a7d52 0%, #095f57 100%)' }} onClick={onClaimWelcome}>
+          <span className="promo-tag">Welcome reward</span>
           <div className="promo-title">You've earned a {formatDollars(FUNDED_OFFER.dollars)} gift 🎁</div>
           <div className="promo-sub">Funded by Capital One for opening your new {FUNDED_OFFER.product}. No {unit} required — tap to claim.</div>
         </button>

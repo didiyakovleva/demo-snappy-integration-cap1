@@ -8,10 +8,10 @@ import { useCurrency } from '../currency.js'
 /**
  * Flow 3 — Reward for signing up (INBOUND: funded by Capital One, NO miles/points spent).
  * Visually distinct: "Funded by Capital One" badge, celebratory framing, and no
- * balance deduction anywhere.
+ * balance deduction anywhere. `offer` selects which funded offer to claim.
  * Steps: welcome/claim → choose → confirm + ship → confirmation.
  */
-export default function FundedReward({ balance, onExit }) {
+export default function FundedReward({ balance, onExit, offer = FUNDED_OFFER }) {
   const { unit } = useCurrency()
   const [step, setStep] = useState('welcome')
   const [choice, setChoice] = useState(null)
@@ -26,8 +26,8 @@ export default function FundedReward({ balance, onExit }) {
           <div className="info-banner funded-banner">
             <span className="ib-icon">🎁</span>
             <div>
-              <div style={{ fontWeight: 700, fontSize: 16 }}>You've earned a {formatDollars(FUNDED_OFFER.dollars)} gift</div>
-              <div style={{ marginTop: 4, opacity: 0.95 }}>{FUNDED_OFFER.blurb}</div>
+              <div style={{ fontWeight: 700, fontSize: 16 }}>You've earned a {formatDollars(offer.dollars)} gift</div>
+              <div style={{ marginTop: 4, opacity: 0.95 }}>{offer.blurb}</div>
             </div>
           </div>
 
@@ -57,11 +57,11 @@ export default function FundedReward({ balance, onExit }) {
         <ScreenHeader title="Choose your gift" onBack={() => setStep('welcome')} onClose={onExit} />
         <div className="screen-pad">
           <div style={{ marginBottom: 12 }}>
-            <span className="funded-badge">Funded by Capital One · {formatDollars(FUNDED_OFFER.dollars)}</span>
+            <span className="funded-badge">Funded by Capital One · {formatDollars(offer.dollars)}</span>
           </div>
           <div className="section-sub">Pick one — it's already paid for. No {unit} required.</div>
           <div className="gift-grid">
-            {FUNDED_OFFER.items.map((it) => (
+            {offer.items.map((it) => (
               <GiftCard
                 key={it.id}
                 item={it}
@@ -94,7 +94,7 @@ export default function FundedReward({ balance, onExit }) {
             </div>
             <div className="summary-row">
               <span className="sr-label">Value</span>
-              <span className="sr-value positive">{formatDollars(FUNDED_OFFER.dollars)} · Funded</span>
+              <span className="sr-value positive">{formatDollars(offer.dollars)} · Funded</span>
             </div>
           </div>
 
@@ -133,12 +133,12 @@ export default function FundedReward({ balance, onExit }) {
     <ConfirmationScreen
       funded
       title="Your welcome gift is on its way"
-      subtitle={`Enjoy your ${choice.name} — and your new ${FUNDED_OFFER.product}. Estimated delivery in 3–5 business days.`}
+      subtitle={`Enjoy your ${choice.name} — and your new ${offer.product}. Estimated delivery in 3–5 business days.`}
       balanceChanged={false}
       newBalance={balance}
       detailRows={[
         { label: 'Gift', value: `${choice.emoji} ${choice.name}` },
-        { label: 'Value', value: `${formatDollars(FUNDED_OFFER.dollars)} · Funded by Capital One` },
+        { label: 'Value', value: `${formatDollars(offer.dollars)} · Funded by Capital One` },
         { label: 'Delivery', value: 'Est. 3–5 business days' },
       ]}
       onDone={onExit}

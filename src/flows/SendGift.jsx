@@ -55,6 +55,26 @@ export default function SendGift({ balance, onSpend, onExit }) {
           <div className="spacer-md" />
           <div className="section-sub">{collection.blurb}</div>
 
+          {/* Preview of what's inside — the recipient picks one of these */}
+          {collection.items?.length > 0 && (
+            <>
+              <div className="preview-heading">What's inside</div>
+              <div className="preview-note">{recipient.name ? `${recipient.name} chooses` : 'They choose'} one of these from the {collection.title} collection.</div>
+              <div className="collection-preview">
+                {collection.items.map((it, i) => (
+                  <div className="cp-item" key={i}>
+                    <div className="cp-thumb" style={{ background: `hsl(${collection.hue} 30% 90%)` }}>
+                      <span className="cp-emoji" aria-hidden="true">{it.emoji}</span>
+                      {it.img && <img className="gift-img" src={it.img} alt={it.name} loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none' }} />}
+                    </div>
+                    <div className="cp-name">{it.name}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="spacer-md" />
+            </>
+          )}
+
           <div className="summary-card">
             <div className="summary-row">
               <span className="sr-label">Gift value</span>
