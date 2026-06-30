@@ -157,6 +157,15 @@ function HomeScreen({ onOpenRewards, onLaunch }) {
           <button className="dm-btn" onClick={() => onLaunch('send')}>
             <span className="dm-emoji">🎁</span> Flow 1 — Send a gift collection
           </button>
+          <a
+            className="dm-btn"
+            href="https://capitalone-giftassistance.lovable.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="dm-emoji">🛎️</span> Redeem with premium concierge
+            <span className="dm-external" aria-hidden="true">↗</span>
+          </a>
           <button className="dm-btn" onClick={() => onLaunch('shop')}>
             <span className="dm-emoji">🛍️</span> Flow 2 — Shop a gift for yourself
           </button>

@@ -731,9 +731,11 @@ button {
   text-align: left; padding: 12px 14px; border-radius: 10px;
   border: 1px solid var(--color-divider); background: #fff;
   font-size: var(--fs-body); font-weight: 600;
+  color: var(--color-text); text-decoration: none;
   display: flex; align-items: center; gap: 10px;
 }
 .dev-menu .dm-btn .dm-emoji { font-size: 18px; }
+.dev-menu .dm-btn .dm-external { margin-left: auto; color: var(--color-text-secondary); font-size: 14px; }
 
 .spacer-sm { height: 8px; }
 .spacer-md { height: 16px; }
