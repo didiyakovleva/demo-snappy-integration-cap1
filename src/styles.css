@@ -67,6 +67,7 @@ button {
   border: none;
   background: none;
   color: inherit;
+  padding: 0; /* drop UA button padding so card media can sit edge-to-edge */
 }
 
 /* ---------- Stage header (outside the phone, dev/demo context) ---------- */
