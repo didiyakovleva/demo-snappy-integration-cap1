@@ -220,7 +220,6 @@ function RewardsBenefits({ balance, onRedeem, onTreatYourself }) {
             ))}
           </div>
           <div className="sp-body">
-            <span className="sp-tag">New</span>
             <div className="sp-title">Treat yourself</div>
             <div className="sp-sub">Turn your {unit} into curated gifts — picked by you, delivered to your door.</div>
             <span className="sp-cta">Redeem now</span>
