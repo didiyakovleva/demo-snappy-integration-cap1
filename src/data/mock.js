@@ -109,6 +109,7 @@ export const FUNDED_OFFER = {
   title: '$100 Welcome Gift',
   dollars: 100,
   product: 'Savings account',
+  hero: '/products/hero-gift.jpg',
   blurb: 'Thanks for opening your new Savings account. Pick a welcome gift on us — no points required.',
   // The funded collection the cardholder chooses from (value fixed & pre-paid)
   items: [
@@ -125,6 +126,7 @@ export const QUICKSILVER_OFFER = {
   title: '$200 Welcome Gift',
   dollars: 200,
   product: 'Quicksilver Rewards card',
+  hero: '/products/hero-card.jpg',
   blurb: 'Open a new Quicksilver Rewards card and choose a $200 welcome gift, on us — no points required.',
   items: [
     { id: 'q-earbuds',   name: 'Wireless Earbuds',     emoji: '🎧', img: '/products/earbuds.jpg',   hue: 210, desc: 'True-wireless earbuds with active noise cancellation.' },

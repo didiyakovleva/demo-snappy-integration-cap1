@@ -22,25 +22,42 @@ export default function FundedReward({ balance, onExit, offer = FUNDED_OFFER }) 
     return (
       <div>
         <ScreenHeader title="Welcome gift" onClose={onExit} />
-        <div className="screen-pad">
-          <div className="info-banner funded-banner">
-            <span className="ib-icon">🎁</span>
-            <div>
-              <div style={{ fontWeight: 700, fontSize: 16 }}>You've earned a {formatDollars(offer.dollars)} gift</div>
-              <div style={{ marginTop: 4, opacity: 0.95 }}>{offer.blurb}</div>
-            </div>
-          </div>
 
-          <div className="spacer-md" />
+        {/* Hero image — credit card / celebratory gift, with the headline overlaid */}
+        <div className="cover funded-cover">
+          <span className="cover-emoji" aria-hidden="true">🎁</span>
+          {offer.hero && (
+            <img className="cover-img" src={offer.hero} alt="" onError={(e) => { e.currentTarget.style.display = 'none' }} />
+          )}
+          <span className="funded-badge cover-badge">Funded by Capital One</span>
+          <div className="cover-overlay">
+            <div className="cover-title">You've earned a {formatDollars(offer.dollars)} gift</div>
+            <div className="cover-sub">{offer.blurb}</div>
+          </div>
+        </div>
+
+        <div className="screen-pad">
           <div className="info-banner">
             <span className="ib-icon">✅</span>
             <div>
-              <span className="funded-badge">Funded by Capital One</span>
-              <div style={{ marginTop: 8 }}>
-                This is a reward — <strong>no {unit} are spent</strong>. Your balance of {formatMiles(balance)} {unit}
-                stays exactly as it is. Just pick the gift you'd like from a curated set.
-              </div>
+              This is a reward — <strong>no {unit} are spent</strong>. Your balance of{' '}
+              {formatMiles(balance)} {unit} stays exactly as it is — just pick the gift you'd like.
             </div>
+          </div>
+
+          {/* Preview the curated set they'll choose from */}
+          <div className="preview-heading" style={{ marginTop: 18 }}>Pick from gifts like these</div>
+          <div className="funded-strip">
+            {offer.items.map((it) => (
+              <div
+                key={it.id}
+                className="fs-thumb"
+                style={{ background: `linear-gradient(150deg, hsl(${it.hue} 45% 88%) 0%, hsl(${it.hue} 38% 74%) 100%)` }}
+              >
+                <span className="gp-emoji" aria-hidden="true">{it.emoji}</span>
+                {it.img && <img className="gift-img" src={it.img} alt={it.name} loading="lazy" onError={(e) => { e.currentTarget.style.display = 'none' }} />}
+              </div>
+            ))}
           </div>
         </div>
         <div className="sticky-footer">
