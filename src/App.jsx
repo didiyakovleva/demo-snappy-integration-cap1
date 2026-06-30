@@ -163,14 +163,14 @@ function HomeScreen({ onOpenRewards, onLaunch }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span className="dm-emoji">🛎️</span> Redeem with premium concierge
+            <span className="dm-emoji">🛎️</span> Flow 2 — Redeem with premium concierge
             <span className="dm-external" aria-hidden="true">↗</span>
           </a>
           <button className="dm-btn" onClick={() => onLaunch('shop')}>
-            <span className="dm-emoji">🛍️</span> Flow 2 — Shop a gift for yourself
+            <span className="dm-emoji">🛍️</span> Flow 3 — Shop a gift for yourself
           </button>
           <button className="dm-btn" onClick={() => onLaunch('funded')}>
-            <span className="dm-emoji">🎉</span> Flow 3 — Reward for signing up (funded)
+            <span className="dm-emoji">🎉</span> Flow 4 — Reward for signing up (funded)
           </button>
         </div>
       </div>
