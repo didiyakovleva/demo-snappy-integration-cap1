@@ -541,6 +541,47 @@ button {
 .promo-card .promo-title { font-size: 19px; font-weight: 700; }
 .promo-card .promo-sub { font-size: var(--fs-body); opacity: 0.92; margin-top: 6px; line-height: 1.4; }
 
+/* ---------- Snappy "Treat yourself" promo card ---------- */
+.snappy-promo {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+.snappy-promo:active { transform: scale(0.99); }
+.sp-hero {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+.sp-thumb {
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 46px;
+  line-height: 1;
+  overflow: hidden;
+}
+.sp-thumb > [aria-hidden="true"] { transform: scale(1.12); }
+.sp-body { padding: 14px 16px 16px; }
+.sp-tag {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--color-primary);
+  background: #e7f0f6;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+.sp-title { font-size: 21px; font-weight: 800; margin-top: 10px; letter-spacing: -0.01em; }
+.sp-sub { font-size: var(--fs-body); color: var(--color-text-secondary); margin-top: 6px; line-height: 1.45; }
+.sp-cta { display: inline-block; margin-top: 12px; color: var(--color-primary); font-weight: 700; font-size: var(--fs-body); }
+
 .mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
 .mini-card {
   background: var(--color-surface);

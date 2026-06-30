@@ -9,6 +9,14 @@ import FundedReward from './flows/FundedReward.jsx'
 import { CARDHOLDER, ACCOUNTS, FUNDED_OFFER, formatMiles, formatDollars } from './data/mock.js'
 import { CurrencyContext, useCurrency, currencyFromAccount } from './currency.js'
 
+// Featured products shown in the Snappy "Treat yourself" promo card.
+const SNAPPY_PROMO_PRODUCTS = [
+  { emoji: '🎧', hue: 210 },
+  { emoji: '🧶', hue: 25 },
+  { emoji: '☕', hue: 22 },
+  { emoji: '🌸', hue: 320 },
+]
+
 // Existing Capital One redeem options (from the screenshots) — static chrome.
 const EXISTING_REDEEM = [
   { icon: '✈️', title: 'Book a trip', desc: 'Redeem with your travel booking site, the smarter way to book flights, hotels and rental cars.' },
@@ -100,7 +108,7 @@ export default function App() {
       />
     )
   } else if (tab === 'rewards') {
-    content = <RewardsBenefits balance={balance} onRedeem={() => setSheetOpen(true)} />
+    content = <RewardsBenefits balance={balance} onRedeem={() => setSheetOpen(true)} onTreatYourself={() => setFlow('shop')} />
   } else {
     content = <PlaceholderTab tab={tab} />
   }
@@ -162,8 +170,8 @@ function HomeScreen({ onOpenRewards, onLaunch }) {
 }
 
 /* ───────────────────────── Rewards & Benefits ──────────────────────────────── */
-function RewardsBenefits({ balance, onRedeem }) {
-  const { label } = useCurrency()
+function RewardsBenefits({ balance, onRedeem, onTreatYourself }) {
+  const { label, unit } = useCurrency()
   return (
     <div>
       <div className="app-header light">Rewards &amp; Benefits</div>
@@ -174,6 +182,31 @@ function RewardsBenefits({ balance, onRedeem }) {
         <button className="btn btn-primary" onClick={onRedeem}>Redeem</button>
 
         <div className="section-label">Elevate your lifestyle</div>
+
+        {/* Snappy — promoted first, above the travel card */}
+        <button className="snappy-promo" onClick={onTreatYourself}>
+          <div className="sp-hero">
+            {SNAPPY_PROMO_PRODUCTS.map((p, i) => (
+              <div
+                key={i}
+                className="sp-thumb"
+                style={{ background: `linear-gradient(150deg, hsl(${p.hue} 45% 88%) 0%, hsl(${p.hue} 38% 74%) 100%)` }}
+              >
+                <span aria-hidden="true">{p.emoji}</span>
+              </div>
+            ))}
+          </div>
+          <div className="sp-body">
+            <span className="sp-tag">Gifts with Snappy</span>
+            <div className="sp-title">Treat yourself</div>
+            <div className="sp-sub">Turn your {unit} into curated gifts — picked by you, delivered to your door.</div>
+            <span className="sp-cta">Redeem with Snappy ›</span>
+          </div>
+        </button>
+
+        <div className="spacer-md" />
+
+        {/* Travel — pushed down */}
         <div className="promo-card">
           <span className="promo-tag">Travel &amp; lounges</span>
           <div className="promo-title">Explore travel and lounges</div>
