@@ -12,11 +12,11 @@ export const milesForDollars = (dollars) => Math.round(dollars * MILES_PER_DOLLA
 export const CARDHOLDER = {
   firstName: 'Alex',
   fullName: 'Alex Rivera',
-  startingBalance: 46763, // miles
+  startingBalance: 46763, // points
 }
 
 export const ACCOUNTS = [
-  { id: 'rewards', name: 'Rewards Card', last4: '2395', miles: 46763, currency: 'Miles', primary: true },
+  { id: 'rewards', name: 'Rewards Card', last4: '2395', miles: 46763, currency: 'Points', primary: true },
   { id: 'everyday', name: 'Everyday Card', last4: '8841', miles: 12940, currency: 'Points', primary: false },
 ]
 
@@ -54,7 +54,7 @@ export const FUNDED_OFFER = {
   title: '$100 Welcome Gift',
   dollars: 100,
   product: 'Savings account',
-  blurb: 'Thanks for opening your new Savings account. Pick a welcome gift on us — no miles required.',
+  blurb: 'Thanks for opening your new Savings account. Pick a welcome gift on us — no points required.',
   // The funded collection the cardholder chooses from (value fixed & pre-paid)
   items: [
     { id: 'f-throw',   name: 'Chunky Knit Throw',     emoji: '🧶', img: '/products/throw.jpg',   hue: 25,  desc: 'Oversized, machine-washable knit throw in warm oatmeal.' },

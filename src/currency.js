@@ -8,7 +8,7 @@ import { createContext, useContext } from 'react'
  *   unit         — lowercase plural,  e.g. "miles" / "points"
  *   unitSingular — lowercase singular, e.g. "mile"  / "point"
  */
-const DEFAULT = { label: 'Miles', unit: 'miles', unitSingular: 'mile' }
+const DEFAULT = { label: 'Points', unit: 'points', unitSingular: 'point' }
 
 export const CurrencyContext = createContext(DEFAULT)
 export const useCurrency = () => useContext(CurrencyContext)

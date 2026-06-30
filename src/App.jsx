@@ -146,7 +146,7 @@ function HomeScreen({ onOpenRewards, onLaunch }) {
 
       <div className="balance-strip" style={{ cursor: 'pointer' }} onClick={onOpenRewards}>
         <span className="bs-label">Rewards balance</span>
-        <span className="bs-value">{formatMiles(CARDHOLDER.startingBalance)} miles ›</span>
+        <span className="bs-value">{formatMiles(CARDHOLDER.startingBalance)} points ›</span>
       </div>
 
       <button className="btn btn-primary" onClick={onOpenRewards}>Go to Rewards</button>
@@ -309,7 +309,7 @@ function OffersScreen({ onClaim }) {
           </div>
           <div className="mini-card">
             <span className="mc-tag">Travel</span>
-            <div className="mc-title">Bonus miles</div>
+            <div className="mc-title">Bonus points</div>
             <div className="mc-sub">On your next booking through Capital One Travel.</div>
           </div>
         </div>
