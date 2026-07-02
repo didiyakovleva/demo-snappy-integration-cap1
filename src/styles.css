@@ -753,6 +753,72 @@ button {
 .tab-item .tab-icon { font-size: 20px; }
 .tab-item.active { color: var(--color-primary); }
 
+/* ---------- Flow 5: mock lock screen / SMS ---------- */
+.lock-screen {
+  min-height: 100%;
+  background: linear-gradient(180deg, #2b3a55 0%, #131a28 55%, #0a0d14 100%);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 54px 16px 22px;
+  text-align: center;
+}
+.ls-time { font-size: 66px; font-weight: 200; letter-spacing: -0.02em; line-height: 1; }
+.ls-date { font-size: 15px; opacity: 0.85; margin-top: 8px; }
+.ls-notif {
+  margin-top: 40px;
+  width: 100%;
+  background: rgba(250, 250, 250, 0.97);
+  color: var(--color-text);
+  border-radius: 16px;
+  padding: 12px 14px 14px;
+  text-align: left;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45);
+  display: block;
+  transition: transform 0.12s ease;
+}
+.ls-notif:active { transform: scale(0.98); }
+.ls-notif .ln-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  color: var(--color-text-secondary);
+}
+.ls-notif .ln-app {
+  width: 20px; height: 20px; border-radius: 5px;
+  background: var(--color-accent); color: #fff;
+  font-size: 10px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+}
+.ls-notif .ln-time { margin-left: auto; font-weight: 400; }
+.ls-notif .ln-title { display: block; font-weight: 700; font-size: 14px; margin-top: 9px; }
+.ls-notif .ln-body { display: block; font-size: 14px; margin-top: 3px; line-height: 1.45; }
+.ls-hint { margin-top: 20px; font-size: 12px; color: rgba(255, 255, 255, 0.6); }
+.ls-toggle {
+  margin-top: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.ls-toggle .chip { background: rgba(255, 255, 255, 0.14); border-color: transparent; color: #fff; padding: 7px 13px; }
+.ls-toggle .chip.active { background: #fff; color: var(--color-text); }
+.ls-exit { font-size: 12px; color: rgba(255, 255, 255, 0.55); text-decoration: underline; padding: 7px 4px; }
+
+/* ---------- Flow 5: gift moment reveal ---------- */
+.moment-hero { text-align: center; padding: 20px 16px 6px; }
+.moment-emoji { font-size: 58px; line-height: 1; }
+.moment-amount { font-size: 44px; font-weight: 800; letter-spacing: -0.02em; margin-top: 8px; }
+.moment-progress { max-width: 260px; margin: 16px auto 0; }
+.progress { height: 10px; border-radius: 6px; background: var(--color-divider); overflow: hidden; }
+.progress > span { display: block; height: 100%; background: var(--color-primary); border-radius: 6px; }
+.progress-label { font-size: var(--fs-small); color: var(--color-text-secondary); margin-top: 7px; }
+
 /* ---------- Confetti ---------- */
 .confetti {
   position: absolute;

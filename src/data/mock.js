@@ -138,6 +138,17 @@ export const QUICKSILVER_OFFER = {
   ],
 }
 
+// Flow 5 — the monthly gift moment. Points earned this statement cycle,
+// wrapped as a gift. Rides on the statement-ready SMS Capital One already sends.
+export const GIFT_MOMENT = {
+  month: 'July',
+  threshold: 2500, // points needed for a full gift moment (demo value)
+  tiers: {
+    high: 4700, // $47 this month — full moment
+    low: 1200,  // $12 — still growing
+  },
+}
+
 // Pre-filled mock shipping address (editable in UI) — fictional
 export const MOCK_ADDRESS = {
   name: 'Alex Rivera',

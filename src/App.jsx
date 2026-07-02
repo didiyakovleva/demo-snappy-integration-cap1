@@ -6,6 +6,7 @@ import { NavyHeader } from './components/Headers.jsx'
 import SendGift from './flows/SendGift.jsx'
 import ShopForSelf from './flows/ShopForSelf.jsx'
 import FundedReward from './flows/FundedReward.jsx'
+import GiftMoment from './flows/GiftMoment.jsx'
 import { CARDHOLDER, ACCOUNTS, FUNDED_OFFER, QUICKSILVER_OFFER, formatMiles, formatDollars } from './data/mock.js'
 import { CurrencyContext, useCurrency, currencyFromAccount } from './currency.js'
 
@@ -37,7 +38,7 @@ export default function App() {
   const [rewardsView, setRewardsView] = useState('benefits') // 'benefits' | 'redeem'
   const [accountId, setAccountId] = useState(ACCOUNTS[0].id)
   const [sheetOpen, setSheetOpen] = useState(false)
-  const [flow, setFlow] = useState(null) // null | 'send' | 'shop' | 'funded'
+  const [flow, setFlow] = useState(null) // null | 'send' | 'shop' | 'funded' | 'moment'
   const [fundedOffer, setFundedOffer] = useState(FUNDED_OFFER) // which offer the funded flow claims
 
   const account = ACCOUNTS.find((a) => a.id === accountId)
@@ -60,8 +61,10 @@ export default function App() {
 
   const exitFlow = () => {
     setFlow(null)
-    // Outbound flows return to the Redeem list; funded returns to Offers.
+    // Outbound flows return to the Redeem list; funded returns to Offers;
+    // the SMS gift moment returns Home (it started outside the app).
     if (flow === 'funded') { setTab('offers') }
+    else if (flow === 'moment') { setTab('home') }
     else { setTab('rewards'); setRewardsView('redeem') }
   }
 
@@ -70,6 +73,7 @@ export default function App() {
     const flowEl =
       flow === 'send' ? <SendGift balance={balance} onSpend={spend} onExit={exitFlow} /> :
       flow === 'shop' ? <ShopForSelf balance={balance} onSpend={spend} onExit={exitFlow} /> :
+      flow === 'moment' ? <GiftMoment onPick={() => setFlow('send')} onShop={() => setFlow('shop')} onExit={exitFlow} /> :
       <FundedReward balance={balance} offer={fundedOffer} onExit={exitFlow} />
     return (
       <CurrencyContext.Provider value={cur}>
@@ -166,8 +170,11 @@ function HomeScreen({ onOpenRewards, onLaunch }) {
       <div className="dev-menu">
         <div className="dm-label">Demo · jump into a flow</div>
         <div className="dm-btns">
+          <button className="dm-btn" onClick={() => onLaunch('moment')}>
+            <span className="dm-emoji">💬</span> Flow 1 — Monthly gift moment (SMS)
+          </button>
           <button className="dm-btn" onClick={() => onLaunch('send')}>
-            <span className="dm-emoji">🎁</span> Flow 1 — Send a gift collection
+            <span className="dm-emoji">🎁</span> Flow 2 — Send a gift collection
           </button>
           <a
             className="dm-btn"
@@ -175,14 +182,14 @@ function HomeScreen({ onOpenRewards, onLaunch }) {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span className="dm-emoji">🛎️</span> Flow 2 — Redeem with premium concierge
+            <span className="dm-emoji">🛎️</span> Flow 3 — Redeem with premium concierge
             <span className="dm-external" aria-hidden="true">↗</span>
           </a>
           <button className="dm-btn" onClick={() => onLaunch('shop')}>
-            <span className="dm-emoji">🛍️</span> Flow 3 — Shop a gift for yourself
+            <span className="dm-emoji">🛍️</span> Flow 4 — Shop a gift for yourself
           </button>
           <button className="dm-btn" onClick={() => onLaunch('funded')}>
-            <span className="dm-emoji">🎉</span> Flow 4 — Reward for signing up (funded)
+            <span className="dm-emoji">🎉</span> Flow 5 — Reward for signing up (funded)
           </button>
         </div>
       </div>
